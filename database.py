@@ -49,3 +49,25 @@ def listar_produtos():
 
     conexao.close()
     return produtos
+
+def excluir_produto(id_produto):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("DELETE FROM produtos WHERE id = ?", (id_produto,))
+
+    conexao.commit()
+    conexao.close()
+
+def editar_produto(id_produto, nome, descricao, preco, quantidade, categoria):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    UPDATE produtos
+    SET nome = ?, descricao = ?, preco = ?, quantidade = ?, categoria = ?
+    WHERE id = ?
+    """, (nome, descricao, preco, quantidade, categoria, id_produto))
+
+    conexao.commit()
+    conexao.close()

@@ -7,7 +7,11 @@ app = Flask(__name__)
 criar_tabela()
 
 @app.route("/")
-def index():
+def home():
+    return render_template("home.html")
+
+@app.route("/produtos")
+def produtos():
     produtos = listar_produtos()
     return render_template("index.html", produtos=produtos)
 
@@ -22,12 +26,12 @@ def cadastrar():
     produto = Produto(nome, descricao, preco, quantidade, categoria)
     inserir_produto(produto)
 
-    return redirect("/")
+    return redirect("/produtos")
 
 @app.route("/excluir/<int:id_produto>")
 def excluir(id_produto):
     excluir_produto(id_produto)
-    return redirect("/")
+    return redirect("/produtos")
 
 @app.route("/editar/<int:id_produto>", methods=["POST"])
 def editar(id_produto):
@@ -39,7 +43,7 @@ def editar(id_produto):
 
     editar_produto(id_produto, nome, descricao, preco, quantidade, categoria)
 
-    return redirect("/")
+    return redirect("/produtos")
 
 if __name__ == "__main__":
     app.run(debug=True)
